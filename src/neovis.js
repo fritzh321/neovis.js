@@ -153,7 +153,7 @@ export default class NeoVis {
 		node.title = '';
 		for (let key in neo4jNode.properties) {
 			if (neo4jNode.properties.hasOwnProperty(key)) {
-				node.title += `<strong>${key}:</strong> ${neo4jNode.properties[key]}<br>`;
+				node.title += `<strong>${key}:</strong> ${(neo4jNode.properties[key].length > 100) ? neo4jNode.properties[key].substr(0, 100-1) + '...' : neo4jNode.properties[key]}<br>`;
 			}
 		}
 		return node;
