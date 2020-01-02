@@ -320,9 +320,10 @@ export default class NeoVis {
 							//     springLength: 95
 							// },
 							stabilization: {
-								iterations: 200,
-								fit: true
-							}
+						        enabled: true,
+						        iterations: 2000,
+						        updateInterval: 25
+						    }
 						}
 					};
 
@@ -350,6 +351,27 @@ export default class NeoVis {
 					//     }
 					// );
 					this._network = new vis.Network(container, this._data, options);
+
+					this._network.on("stabilizationProgress", function(params) {
+					    var maxWidth = 496;
+					    var minWidth = 20;
+					    var widthFactor = params.iterations / params.total;
+					    var width = Math.max(minWidth, maxWidth * widthFactor);
+
+					    document.getElementById("bar").style.width = width + "px";
+					    document.getElementById("text").innerHTML =
+					      Math.round(widthFactor * 100) + "%";
+					  });
+					  this._network.once("stabilizationIterationsDone", function() {
+					    document.getElementById("text").innerHTML = "100%";
+					    document.getElementById("bar").style.width = "496px";
+					    document.getElementById("loadingBar").style.opacity = 0;
+					    // really clean the dom element
+					    setTimeout(function() {
+					      document.getElementById("loadingBar").style.display = "none";
+					    }, 500);
+					  });
+
 					this._consoleLog('completed');
 					setTimeout(
 						() => {
