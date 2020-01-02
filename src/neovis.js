@@ -129,6 +129,7 @@ export default class NeoVis {
 			node.label = captionKey(neo4jNode);
 		} else {
 			node.label = neo4jNode.properties[captionKey] || label || '';
+			node.label = (node.label.length > 10) ? node.label.substr(0, 10-1) + '...' : node.label;
 		}
 
 		// community
@@ -201,7 +202,6 @@ export default class NeoVis {
 			}
 		} else if (captionKey && typeof captionKey === 'string') {
 			edge.label = r.properties[captionKey] || '';
-			node.label = (node.label.length > 10) ? node.label.substr(0, 10-1) + '...' : node.label;
 		} else {
 			edge.label = r.type;
 		}
