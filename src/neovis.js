@@ -351,8 +351,12 @@ export default class NeoVis {
 					//     }
 					// );
 					this._network = new vis.Network(container, this._data, options);
+
+					document.getElementById("text").innerHTML =  '0%';
 					document.getElementById("loadingBar").style.opacity = 1;
 					document.getElementById("loadingBar").style.display = "block";
+					 document.getElementById("bar").style.width = "0px";
+
 
 					this._network.on("stabilizationProgress", function(params) {
 					    var maxWidth = 496;
