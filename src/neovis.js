@@ -352,7 +352,8 @@ export default class NeoVis {
 					// );
 					this._network = new vis.Network(container, this._data, options);
 
-					document.getElementById("loadingBar").style.display = "block";
+					document.getElementById("loadingBar").style.display = "none";
+					document.getElementById("loadingBar").style.opacity = 1;
 
 					this._network.on("stabilizationProgress", function(params) {
 					    var maxWidth = 496;
