@@ -361,13 +361,11 @@ export default class NeoVis {
 					    var widthFactor = params.iterations / params.total;
 					    var width = Math.max(minWidth, maxWidth * widthFactor);
 
-					    document.getElementById("bar").style.width = width + "px";
 					    document.getElementById("text").innerHTML =
 					      Math.round(widthFactor * 100) + "%";
 					  });
 					  this._network.once("stabilizationIterationsDone", function() {
 					    document.getElementById("text").innerHTML = "100%";
-					    document.getElementById("bar").style.width = "496px";
 					    document.getElementById("loadingBar").style.opacity = 0;
 					    // really clean the dom element
 					    setTimeout(function() {
