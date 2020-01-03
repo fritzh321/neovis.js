@@ -3,8 +3,8 @@
 import Neo4j from 'neo4j-driver';
 import * as vis from 'vis/dist/vis-network.min';
 import 'vis/dist/vis-network.min.css';
-import { defaults } from './defaults';
-import { EventController, CompletionEvent } from './events';
+import {defaults} from './defaults';
+import {CompletionEvent, EventController} from './events';
 
 export default class NeoVis {
 	_nodes = {};
@@ -35,7 +35,7 @@ export default class NeoVis {
 	}
 
 	_consoleLog(message, level = 'log') {
-		if(level !== 'log' || this._config.console_debug) {
+		if (level !== 'log' || this._config.console_debug) {
 			// eslint-disable-next-line no-console
 			console[level](message);
 		}
@@ -129,7 +129,7 @@ export default class NeoVis {
 			node.label = captionKey(neo4jNode);
 		} else {
 			node.label = neo4jNode.properties[captionKey] || label || '';
-			node.label = (node.label.length > 10) ? node.label.substr(0, 10-1) + '...' : node.label;
+			node.label = (node.label.length > 10) ? node.label.substr(0, 10 - 1) + '...' : node.label;
 		}
 
 		// community
@@ -153,7 +153,7 @@ export default class NeoVis {
 		node.title = '';
 		for (let key in neo4jNode.properties) {
 			if (neo4jNode.properties.hasOwnProperty(key)) {
-				node.title += `<strong>${key}:</strong> ${(neo4jNode.properties[key].length > 100) ? neo4jNode.properties[key].substr(0, 100-1) + '...' : neo4jNode.properties[key]}<br>`;
+				node.title += `<strong>${key}:</strong> ${(neo4jNode.properties[key].length > 100) ? neo4jNode.properties[key].substr(0, 100 - 1) + '...' : neo4jNode.properties[key]}<br>`;
 			}
 		}
 		return node;
@@ -320,10 +320,10 @@ export default class NeoVis {
 							//     springLength: 95
 							// },
 							stabilization: {
-						        enabled: true,
-						        iterations: 2000,
-						        updateInterval: 25
-						      }
+								enabled: true,
+								iterations: 2000,
+								updateInterval: 25
+							}
 						}
 					};
 
@@ -352,31 +352,30 @@ export default class NeoVis {
 					// );
 					this._network = new vis.Network(container, this._data, options);
 
-					document.getElementById("text").innerHTML =  '0%';
-					document.getElementById("loadingBar").style.opacity = 1;
-					document.getElementById("loadingBar").style.display = "block";
-					 document.getElementById("bar").style.width = "0px";
+					document.getElementById('text').innerHTML = '0%';
+					document.getElementById('loadingBar').style.opacity = 1;
+					document.getElementById('loadingBar').style.display = 'block';
+					document.getElementById('bar').style.width = '0px';
 
+					this._network.on('stabilizationProgress', function (params) {
+						var maxWidth = 496;
+						var minWidth = 20;
+						var widthFactor = params.iterations / params.total;
+						var width = Math.max(minWidth, maxWidth * widthFactor);
 
-					this._network.on("stabilizationProgress", function(params) {
-					    var maxWidth = 496;
-					    var minWidth = 20;
-					    var widthFactor = params.iterations / params.total;
-					    var width = Math.max(minWidth, maxWidth * widthFactor);
-
-					    document.getElementById("bar").style.width = width + "px";
-					    document.getElementById("text").innerHTML =
-					      Math.round(widthFactor * 100) + "%";
-					  });
-					  this._network.once("stabilizationIterationsDone", function() {
-					    document.getElementById("text").innerHTML = "100%";
-					    document.getElementById("bar").style.width = "496px";
-					    document.getElementById("loadingBar").style.opacity = 0;
-					    // really clean the dom element
-					    setTimeout(function() {
-					      document.getElementById("loadingBar").style.display = "none";
-					    }, 500);
-					  });
+						document.getElementById('bar').style.width = width + 'px';
+						document.getElementById('text').innerHTML =
+							Math.round(widthFactor * 100) + '%';
+					});
+					this._network.once('stabilizationIterationsDone', function () {
+						document.getElementById('text').innerHTML = '100%';
+						document.getElementById('bar').style.width = '500px';
+						document.getElementById('loadingBar').style.opacity = 0;
+						// really clean the dom element
+						setTimeout(function () {
+							document.getElementById('loadingBar').style.display = 'none';
+						}, 500);
+					});
 
 					this._consoleLog('completed');
 					setTimeout(
