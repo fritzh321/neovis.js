@@ -1,6 +1,6 @@
 {
   "name": "@smartwithfood/neovis.js",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Graph visualizations powered by vis.js with data from Neo4j edited by SWF.",
   "main": "./dist/neovis.js",
   "module": "./dist/neovis-without-dependencies.js",
